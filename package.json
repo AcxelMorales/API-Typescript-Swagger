@@ -4,7 +4,9 @@
   "description": "Api Rest with Typescript and Node JS",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "nodemon",
+    "start": "node build/index.js"
   },
   "keywords": [
     "Typescript",
