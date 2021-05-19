@@ -1,7 +1,13 @@
 import { Handler, Request, Response } from 'express';
 
+import { getConnection } from '../database/db';
+
 export const getTasks: Handler = (req: Request, res: Response) => {
-  res.json();
+  const data = getConnection().get('tasks').value();
+  return res.status(200).json({
+    ok: true,
+    data
+  });
 };
 
 export const getCountTasks: Handler = (req: Request, res: Response) => {
