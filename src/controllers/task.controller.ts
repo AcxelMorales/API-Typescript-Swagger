@@ -1,4 +1,5 @@
 import { Handler, Request, Response } from 'express';
+import { nanoid } from 'nanoid';
 
 import { getConnection } from '../database/db';
 
@@ -19,7 +20,34 @@ export const getTaskById: Handler = (req: Request, res: Response) => {
 };
 
 export const createTask: Handler = (req: Request, res: Response) => {
-  res.json();
+  const {name, description} = req.body;
+
+  if (name === undefined || description === undefined) {
+    return res.status(409).json({
+      ok: false,
+      message: 'Los campos name y description son obligatorios'
+    });
+  }
+
+  const task = {
+    name,
+    description,
+    id: nanoid()
+  };
+
+  try {
+    getConnection().get('tasks').push(task).write();
+
+    return res.status(200).json({
+      ok: true,
+      task
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error
+    });
+  }
 };
 
 export const deleteTask: Handler = (req: Request, res: Response) => {
