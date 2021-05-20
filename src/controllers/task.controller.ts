@@ -16,7 +16,21 @@ export const getCountTasks: Handler = (req: Request, res: Response) => {
 };
 
 export const getTaskById: Handler = (req: Request, res: Response) => {
-  res.json();
+  const taskFound = getConnection().get('tasks').find({
+    id: req.params.id
+  }).value();
+
+  if (!taskFound) {
+    return res.status(404).json({
+      ok: false,
+      message: 'La tarea no fue encontrada'
+    });
+  }
+
+  return res.status(200).json({
+    ok: true,
+    taskFound
+  });
 };
 
 export const createTask: Handler = (req: Request, res: Response) => {
