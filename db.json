@@ -1,3 +1,14 @@
 {
-  "tasks": []
+  "tasks": [
+    {
+      "name": "Crear un API REST",
+      "description": "Utilizando typescript",
+      "id": "HnfsiUWXAd9s6YX8QEJl_"
+    },
+    {
+      "name": "Crear una app mobile",
+      "description": "Utilizando flutter",
+      "id": "BJce4RsFABCfP3iX6wT9B"
+    }
+  ]
 }
