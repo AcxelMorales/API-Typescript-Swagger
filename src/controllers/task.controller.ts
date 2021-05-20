@@ -12,7 +12,11 @@ export const getTasks: Handler = (req: Request, res: Response) => {
 };
 
 export const getCountTasks: Handler = (req: Request, res: Response) => {
-  res.json();
+  const taskLength = getConnection().get('tasks').value().length;
+  return res.status(200).json({
+    ok: true,
+    taskLength
+  });
 };
 
 export const getTaskById: Handler = (req: Request, res: Response) => {
@@ -65,9 +69,45 @@ export const createTask: Handler = (req: Request, res: Response) => {
 };
 
 export const deleteTask: Handler = (req: Request, res: Response) => {
-  res.json();
+  const taskFound = getConnection().get('tasks').find({
+    id: req.params.id
+  }).value();
+
+  if (!taskFound) {
+    return res.status(404).json({
+      ok: false,
+      message: 'La tarea no fue encontrada'
+    });
+  }
+
+  const deletedTask = getConnection().get('tasks').remove({
+    id: req.params.id
+  }).write();
+
+  return res.status(200).json({
+    ok: true,
+    deletedTask
+  });
 };
 
 export const updateTask: Handler = (req: Request, res: Response) => {
-  res.json();
+  const taskFound = getConnection().get('tasks').find({
+    id: req.params.id
+  }).value();
+
+  if (!taskFound) {
+    return res.status(404).json({
+      ok: false,
+      message: 'La tarea no fue encontrada'
+    });
+  }
+
+  const updatedTask = getConnection().get('tasks').find({
+    id: req.params.id
+  }).assign(req.body).write();
+
+  return res.status(200).json({
+    ok: true,
+    updatedTask
+  });
 };
